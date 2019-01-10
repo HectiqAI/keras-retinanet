@@ -162,7 +162,7 @@ def __create_pyramid_features(C3, C4, C5, feature_size=256):
     return [P3, P4, P5, P6, P7]
 
 
-def default_submodels(num_classes, num_anchors):
+def default_submodels(num_classes, num_anchors, n_landmarks=10):
     """ Create a list of default submodels used for object detection.
 
     The default submodels contains a regression submodel and a classification submodel.
@@ -175,7 +175,7 @@ def default_submodels(num_classes, num_anchors):
         A list of tuple, where the first element is the name of the submodel and the second element is the submodel itself.
     """
     return [
-        ('regression', default_regression_model(4, num_anchors)),
+        ('regression', default_regression_model(n_landmarks*2, num_anchors)),
         ('classification', default_classification_model(num_classes, num_anchors))
     ]
 
@@ -242,6 +242,7 @@ def retinanet(
     num_anchors             = None,
     create_pyramid_features = __create_pyramid_features,
     submodels               = None,
+    n_landmarks             = 10,
     name                    = 'retinanet'
 ):
     """ Construct a RetinaNet model on top of a backbone.
@@ -271,7 +272,7 @@ def retinanet(
         num_anchors = AnchorParameters.default.num_anchors()
 
     if submodels is None:
-        submodels = default_submodels(num_classes, num_anchors)
+        submodels = default_submodels(num_classes, num_anchors, n_landmarks)
 
     C3, C4, C5 = backbone_layers
 
@@ -350,3 +351,13 @@ def retinanet_bbox(
 
     # construct the model
     return keras.models.Model(inputs=model.inputs, outputs=detections, name=name)
+
+
+
+
+
+
+
+
+
+
