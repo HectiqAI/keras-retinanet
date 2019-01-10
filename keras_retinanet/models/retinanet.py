@@ -242,7 +242,7 @@ def retinanet(
     num_anchors             = None,
     create_pyramid_features = __create_pyramid_features,
     submodels               = None,
-    n_landmarks             = 10,
+    n_landmarks             = 2,
     name                    = 'retinanet'
 ):
     """ Construct a RetinaNet model on top of a backbone.
