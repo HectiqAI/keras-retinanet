@@ -163,7 +163,7 @@ class PolygonGenerator(Generator):
         annotations_group = self.load_annotations_group(group)
 
         # Preprocess
-        image_group, annotations_group = self.preprocess_group(image_group, annotations_group)
+        # image_group, annotations_group = self.preprocess_group(image_group, annotations_group)
 
         # compute network inputs
         inputs = self.compute_inputs(image_group)
