@@ -4,10 +4,6 @@ import numpy as np
 
 import keras
 
-from ..utils.image import (
-    preprocess_image
-)
-
 
 def target4joints(anchors, regression, annotation, std=0.2, mean=0):
     """Convert bbox regression to a bbox
@@ -132,29 +128,6 @@ class PolygonGenerator(Generator):
     def random_transform_group(self, image_group, annotations_group):
         return image_group, annotations_group
     
-    def preprocess_group_entry(self, image, annotations):
-        """ Preprocess image and its annotations.
-        """
-        # preprocess the image
-        image = preprocess_image(image)
-
-        # convert to the wanted keras floatx
-        image = keras.backend.cast_to_floatx(image)
-
-        return image, annotations
-
-    def preprocess_group(self, image_group, annotations_group):
-        """ Preprocess each image and its annotations in its group.
-        """
-        assert(len(image_group) == len(annotations_group))
-
-        for index in range(len(image_group)):
-            # preprocess a single group entry
-            image_group[index], annotations_group[index] = self.preprocess_group_entry(image_group[index], annotations_group[index])
-
-        return image_group, annotations_group
-
-
     def compute_input_output(self, group):
         """ Compute inputs and target outputs for the network.
         """
